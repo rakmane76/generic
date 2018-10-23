@@ -1,0 +1,353 @@
+vyos configuration
+
+1. install the image, by running "install image" command.
+2. run , config ->  set interfaces ethernet eth0 address dhcp
+        set service ssh
+        set system time-zone Asia/Calcutta
+        set system login user rakesh authentication plaintext-password <passwd>
+        set system login user rakesh level admin
+        set service https listen-address <ip-adress of vyos>
+        
+set system package repository jessie components 'main contrib non-free'
+set system package repository jessie distribution 'jessie'
+set system package repository jessie url 'http://httpredir.debian.org/debian' or  http://ftp.jp.debian.org/debian/
+
+set system package repository jessie-backports distribution jessie-backports
+set system package repository jessie-backports components "main contrib non-free"
+set system package repository jessie-backports url http://ftp.us.debian.org/debian
+
+set system package repository jessie/updates distribution jessie/updates
+set system package repository jessie/updates components "main contrib non-free"
+set system package repository jessie/updates url http://security.debian.org/debian-security
+
+
+show configuration commands  --- to see all commands ran under config
+
+
+--sudo apt-get upgrade
+--sudo apt-get install python2.7-dev
+--sudo apt-get install python-pip
+--pip install --upgrade pip
+--sudo pip install uwsgi
+
+sudo apt-get update
+sudo apt-get install build-essential
+sudo apt-get install uwsgi-plugin-python3
+update-alternatives --set uwsgi /usr/bin/uwsgi_python34
+
+
+for python3 : 
+sudo apt-get install python3-dev
+sudo apt-get install uwsgi
+sudo apt-get install python3-pip
+sudo pip3 install uwsgi
+sudo pip3 install bottle
+sudo pip3 install vymgmt
+
+got message :: Successfully installed uwsgi
+
+to set https /http service check link : https://wiki.vyos.net/wiki/User_Guide#NAT        
+
+===========================================================================================
+
+vyos/vyatta-webgui
+
+https://github.com/vyos/vyatta-webgui
+https://github.com/vyatta4people/vyBuddy
+http://www.tonystech.com/tutorials/vyatta-router/publish-an-internal-web-server-using-vyatta
+https://www.ibm.com/support/knowledgecenter/en/SSNS6R_2.2.4/doc/rest/vyatta_rest.html
+
+** https://github.com/abessifi/pyatta ***
+
+https://plus.google.com/communities/106770700991365293711
+https://github.com/chriskacerguis/codeigniter-restserver
+
+
+C:\xampp\htdocs\meghrest
+C:\Users\Rakesh\Downloads\CodeIgniter-3.1.8
+
+
+======================================================================================
+## help from website for vymgmt 
+
+pip install --upgrade pip
+
+pip3 install vymgmt
+
+
+
+>>> import vymgmt
+>>> 
+>>> vyos = vymgmt.Router('192.168.23.131', 'vyos', password='qing123', port=22)
+>>> 
+>>> vyos.login()
+>>> vyos.configure()
+>>> vyos.set("protocols static route 203.0.113.0/25 next-hop 192.168.23.20")
+
+
+vyos.set("protocols static route 203.0.113.0/25 next-hop 192.168.23.20")
+vyos.set("interfaces ethernet eth0 address dhcp")
+vyos.set("interfaces ethernet eth0 description 'OUTSIDE'")
+
+
+vyos.set("service ssh port '22'")
+
+
+vyos.set("system gateway-address 172.16.0.1")
+
+
+
+vyos.set("interfaces ethernet eth1 address '192.168.0.1/24'")
+vyos.set("interfaces ethernet eth1 description 'INSIDE'")
+
+
+vyos.set("nat source rule 100 outbound-interface 'eth0'")
+vyos.set("nat source rule 100 source address '192.168.0.0/24'")
+vyos.set("nat source rule 100 translation address masquerade")
+
+
+vyos.set("service dhcp-server disabled 'false'")
+vyos.set("service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 default-router '192.168.0.1'")
+vyos.set("service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 dns-server '192.168.0.1'")
+vyos.set("service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 domain-name 'internal-network'")
+vyos.set("service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 lease '86400'")
+vyos.set("service dhcp-server shared-network-name LAN subnet 192.168.0.0/24 start 192.168.0.9 stop '192.168.0.254'")
+
+
+vyos.set("service dns forwarding cache-size '0'")
+vyos.set("service dns forwarding listen-on 'eth1'")
+vyos.set("service dns forwarding name-server '8.8.8.8'")
+vyos.set("service dns forwarding name-server '8.8.4.4'")
+
+
+vyos.set("firewall name OUTSIDE-IN default-action 'drop'")
+vyos.set("firewall name OUTSIDE-IN rule 10 action 'accept'")
+vyos.set("firewall name OUTSIDE-IN rule 10 state established 'enable'")
+vyos.set("firewall name OUTSIDE-IN rule 10 state related 'enable'")
+
+
+vyos.set("firewall name OUTSIDE-LOCAL default-action 'drop'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 10 action 'accept'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 10 state established 'enable'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 10 state related 'enable'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 20 action 'accept'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 20 icmp type-name 'echo-request'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 20 protocol 'icmp'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 20 state new 'enable'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 30 action 'drop'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 30 destination port '22'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 30 protocol 'tcp'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 30 recent count '4'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 30 recent time '60'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 30 state new 'enable'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 31 action 'accept'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 31 destination port '22'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 31 protocol 'tcp'")
+vyos.set("firewall name OUTSIDE-LOCAL rule 31 state new 'enable'")
+
+
+vyos.set("interfaces ethernet eth0 firewall in name 'OUTSIDE-IN'")
+vyos.set("interfaces ethernet eth0 firewall local name 'OUTSIDE-LOCAL'")
+
+>>> vyos.run_op_mode_command('show vpn remote-access')
+u' show vpn remote-access\r\n\x1b[?1h\x1b=\rActive remote access VPN sessions:\x1b[m\r\n\x1b[m\r\nUser            Proto Iface     Tunnel IP       TX byte RX byte  Time \x1b[m\r\n----            ----- -----     ---------       ------- -------  ---- \x1b[m\r\nroot            L2TP  l2tp0     192.168.255.1        74    4.4K  00h00m06s\x1b[m\r\n\r\x1b[K\x1b[?1l\x1b>'
+
+
+>>> vyos.commit()
+>>> vyos.save()
+>>> vyos.exit()
+>>> vyos.logout()
+
+
+推荐：https://github.com/abessifi/pyatta
+
+
+================================================================================================
+
+flask on lighttpd : 
+https://uobis.com/blog/deploying-flask-on-lighttpd/
+
+it requires many packages to build. 
+sudo apt-get python python-devel lighttpd httpd-devel mysql-server mysql-devel git gcc
+
+FLASK says we need to create virutal env on system so that it works. 
+or we need to install Gunicorn or FastCGI( Web Server Gateway Interfaace WSGI) as interface b/w web server and python framework.
+
++ it requires supervisor to make FastCGI work.
+
+===============================================================================================
+
+lua can be run on openresty with framework lapis. performance is good. 
+https://softwareengineering.stackexchange.com/questions/274422/proper-way-to-design-rest-interface-with-nginx-lua
+
+check : https://www.techempower.com/benchmarks/#section=data-r10
+
+Possible drawbacks with Lua-based web frameworks may be fewer learning resources, third-party packages and web hosts.
+
+=============================================================================
+
+python + bottle on nginx-lua
+
+Here you have explanation how to deploy bottle app in apache with the use of WSGI: http://bottlepy.org/docs/dev/deployment.html#apache-mod-wsgi
+
+As far as application is concerned you need to best REST compliant so learn about REST and bottle, here is a good tutorial which I used: http://myadventuresincoding.wordpress.com/2011/01/02/creating-a-rest-api-in-python-using-bottle-and-mongodb/
+
+====================================================================================================================================
+
+Bottle vs FLASK
+
+Bottle is a fast, simple and lightweight WSGI micro web-framework for Python. It is distributed as a single file module and has no dependencies other than the Python Standard Library.
+
+comparison done here 
+
+https://www.quora.com/Flask-vs-Bottle-what-are-their-advantages-and-disadvantages
+
+https://www.reddit.com/r/Python/comments/5zx9tr/should_i_choose_flask_or_bottle_for_my_website/
+
+https://stackoverflow.com/questions/18006014/python-bottle-vs-uwsgi-bottle-vs-nginx-uwsgi-bottle
+
+Bottle is good for small application. 
+
+=========================================================================================================================
+nginx vs lighttpd 
+
+http://www.monitis.com/blog/nginx-vs-lighttpd/
+
+Lighthttpd, is small, single threaded, so its memory and cpu consumptions are smaller,it is easy to configure, it is fast for static html pages
+
+Nginx is an event-based web server. As it is asynchronous server,it provides scalability. In a process-based server, each simultaneous connection requires a thread which incurs significant overhead. An asynchronous server,like nginx, is event-driven and handles requests in a single (or at least, very few) threads which allows nginx to be very fast.
+
+=================================================================================================================
+for Bottle and uwsgi .. 
+install uwsgi .. 
+pip install uwsgi
+http://www.ultravioletsoftware.com/single-post/2017/03/23/An-introduction-into-the-WSGI-ecosystem
+
+===========================================================================================================
+
+For understanding WSGI + uWSGI + uwsgi ..
+
+http://www.ultravioletsoftware.com/single-post/2017/03/23/An-introduction-into-the-WSGI-ecosystem
+
+in short 
+WSGI -> (pronounced wiz-gee) stands for Web Server Gateway Interface and it's a spec for a software interface between a web server and a python application
+
+uWSGI -> is a web server 
+
+uwsgi ->  binary protocol for connecting the uWSGI server to other applications
+
+=====================================================================================================
+
+http://www.slideshare.net/r1chardj0n3s/web-microframework-battle
+
+http://bottle.readthedocs.io/en/latest/tutorial.html#quickstart-hello-world
+
+https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html
+
+from above web page, following is of importance
+
+ The best performing protocol is obviously uwsgi, already supported by nginx and Cherokee (while various Apache modules are available).
+
+A common nginx config is the following:
+
+location / {
+    include uwsgi_params;
+    uwsgi_pass 127.0.0.1:3031;
+}
+This means “pass every request to the server bound to port 3031 speaking the uwsgi protocol”.
+
+Now we can spawn uWSGI to natively speak the uwsgi protocol:
+
+uwsgi --socket 127.0.0.1:3031 --wsgi-file foobar.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+If you’ll run ps aux, you will see one process less. The HTTP router has been removed as our “workers” (the processes assigned to uWSGI) natively speak the uwsgi protocol.
+
+If your proxy/webserver/router speaks HTTP, you have to tell uWSGI to natively speak the http protocol (this is different from –http that will spawn a proxy by itself):
+
+uwsgi --http-socket 127.0.0.1:3031 --wsgi-file foobar.py --master --processes 4 --threads 2 --stats 127.0.0.1:9191
+
+
+=======================================================================================
+
+read url : http://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
+
+to get uwsgi and nginx to talk via unix socket. 
+
+======================================================================================
+
+bottle - rest api 
+
+https://www.toptal.com/bottle/building-a-rest-api-with-bottle-framework
+
+======================================================================================
+
+to connect, bottle + wsgi + nginx do the following : 
+followed links :
+https://michael.lustfield.net/nginx/bottle-uwsgi-nginx-quickstart
+http://wizardyhnr.blogspot.in/2016/03/bottle-uwsgi-nginx-preface-before.html
+
+
+1. Changes user 'vyos' to add group for nginx-lua
+  usermod -a -G www-data
+  
+2. Created directory /var/www/bottle/ and /run/uwsgi, then user/group owner same as nginx
+   chown -R www-data:www-data /var/www
+   mkdir /run/uwsgi  
+   chown -R www-data:www-data /run/uwsgi
+   
+   created new file /etc/tmpfiles.d/uwsgi.conf   with contents 
+   d /run/uwsgi 0755 vyos users
+   Z /run/uwsgi 0755 vyos users
+
+   run commands : 
+   sudo systemctl daemon-reload
+   sudo systemctl reset-failed
+
+   
+3. created app.py in /var/www/bottle . 
+
+4. create UWSGI configuration in area : /etc/uwsgi/apps-available/bottle.ini
+
+5. Start uwsgi service : service uwsgi restart
+
+6. created file /etc/nginx/sites-available/default
+
+7. restart nginx, 
+
+This should show netstat -nlp command, port 80 as TCP and /run/uwsgi/sock Unix domain socket used. 
+
+========================================================================
+
+mod_uswgi goes with Apache server, hence it wont work for us.
+
+===================================================================================
+For security of REST API.
+
+https://www.youtube.com/watch?v=501dpx2IjGY 
+
+https://stackoverflow.com/questions/319530/restful-authentication 
+check answer for possible solutions.
+
+=================================================================================
+for https setting :
+https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-centos-7
+
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+
+if /etc/ssl not present : 
+sudo mkdir /etc/ssl/private
+sudo chmod 700 /etc/ssl/private
+
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+fill in answers if there any questions coming on screen. 
+
+sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+updated default config script for nginx. 
+
+when working from browser chrome, https will work and first time it will give warning. 
+copy from nginx server /etc/ssl/certs/nginx-selfsigned.crt file to local machine. 
+
+To add certificate on Chrome, go to Settings -> Advanced -> Manage Certificates
+click import, get select crt file you downloaded and when asked for option to store file on following store. use Third-Party root certificate authorities.
+
+===================================================================================
