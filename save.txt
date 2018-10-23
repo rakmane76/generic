@@ -1,0 +1,187 @@
+==========================================================================
+
+https://www.geeksforgeeks.org/named-pipe-fifo-example-c-program/
+
+=================================================================================================
+
+Protobuf to void * and vice versa.
+
+from protobuf to void * see 
+size_t size = address_book.ByteSizeLong(); 
+void *buffer = malloc(size);
+address_book.SerializeToArray(buffer, size);
+
+check link : https://stackoverflow.com/questions/9158576/c-google-protocol-buffers-serialize-to-char
+
+
+check func to convert void * to obj bool	ParseFromArray(const void * data, int size)
+Parse a protocol buffer contained in an array of bytes.
+https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.message_lite?csw=1
+
+==========================================================================================================
+netstat command to see the client port connected to the server. 
+netstat -nlpu
+
+======================================================================================================
+https://linux.die.net/man/3/mkfifo
+there is statement in man page that states about deadlock and blocking .. 
+However, it has to be open at both ends simultaneously before you can proceed to do any input or output operations on it. Opening a FIFO for reading normally blocks until some other process opens the same FIFO for writing, and vice versa
+
+=========================================================================================
+for git merge issue : 
+https://stackoverflow.com/questions/11646107/you-have-not-concluded-your-merge-merge-head-exists
+check first answer. 
+
+==========================================================================================
+cppcheck --enable=all
+
+==========================================================================================
+valgrind : 
+https://stackoverflow.com/questions/5134891/how-do-i-use-valgrind-to-find-memory-leaks
+
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.log ./executable exampleParam1
+
+=========================================================================================================
+For syslog creation separately for daemon. 
+
+03:31@/etc/rsyslog.d$ cat icp.conf 
+if $programname == 'MY_Server_Daemon' then /var/log/MY_Server.log
+& stop
+
+added files new_agent.conf  new_client.conf in /etc/rsyslog.d area . 
+new_agent.conf file looks :
+if $programname == 'NewAgentSockServer' then /var/log/NewAgent.log
+& stop
+
+new_client.conf file looks :
+if $programname == 'AgentMgrSockServer' or $programname == 'Netlink' then /var/log/Client.log
+& stop
+
+updated file : 
+replaced line with '*.*;auth,authpriv.none          -/var/log/syslog'  to 
+if not ($programname == 'AgentMgrSockServer')  and not ($programname == 'NewAgentSockServer')  and not ($programname == 'Netlink') then   -/var/log/syslog
+
+sudo service rsyslog restart
+
+sudo chgrp syslog /usr/local/new_client/log/
+sudo chmod g+rwx /usr/local/new_client/log
+
+=================================================================================================
+
+Added library for cunit
+sudo apt-get install libcunit1 libcunit1-doc libcunit1-dev
+
+==================================================================================================
+
+Install CppUtest library on Ubuntu 
+1. Download pkg from https://cpputest.github.io/manual.html , got CppUtest version 3.8 .
+2. unzipped the file and went to base directory cpputest-3.8
+3. ./autogen.sh
+4. ./configure --disable-memory-leak-detection > config.log 2>&1
+6. make > make.log 2>&1
+6. make check (to see if it passes all test cases). 
+7. sudo make install > install.log 2>&1
+
+This will by default install header files in area /usr/local/include/CppUTest and library in /usr/local/lib/
+
+======================================================================================================
+
+For protobuf library build and install 
+To do build, we are now only using google protobuf library 3.5.1. 
+You can download same from site https://github.com/google/protobuf/releases
+please check for protobuf-cpp-3.5.1.zip 
+Once downloaded and unziped, please go to src area and check README.md for instructions. In brief it states, following packages need to be installed before doing the build. 
+sudo apt-get install autoconf automake libtool curl make g++ unzip
+Then run following commands where the code is extracted to complete build and install of libraries. 
+./autogen.sh
+./configure --disable-shared
+make
+make check
+sudo make install
+sudo ldconfig
+
+==================================================================================================
+
+Linux command to check latest updates. 
+journalctl shows all the commands that were run and if any core generated will be also shown in the log. 
+journalctl > /tmp/log  .. check the log file for the same. 
+
+========================================================================================================
+When linker fails with statement cannot find library name.
+try command : 
+ ld -l<library name> --verbose
+ 
+ It will display what is missing here . 
+ 
+======================================================================================================
+
+For SoftEtherVPN source code build : 
+need to install first 
+sudo apt-get install libreadline6 libreadline6-dev
+sudo apt-get install libncurses5-dev libncursesw5-dev
+sudo apt-get install libssl-dev
+run ./configure
+run make DEBUG=YES
+
+===================================================================================================
+
+For examining coredumps, 
+sudo apt install systemd-coredump
+coredumpctl list
+journalctl
+
+coredumpctl info <PID> // to get crash info
+coredumpctl gdb <PID> // to run gdb on the core crash
+// then  run bt or where to get stack trace. 
+
+or get generate core file again using 
+coredumpctl dump <PID> --output /tmp/core.IP
+
+now run gdb on the core to get more details.
+
+========================================================================================================
+
+Make file, 
+use -n or --just-print option to make 
+so that it will print the commands it will run . 
+
+========================================================================================================
+
+to run remote command on linux with sudo passwd try : 
+ssh -t <username>@<machine_ip> "<command>"
+
+=====================================================================================
+python debug 
+
+sudo apt install python3.5-dbg
+
+=========================================================================================================
+-Wl,-R/path/to/dynamiclib/ is added to dynamic library so no need to add LD_LIBRARY_PATH later, it will take it automatically. 
+
+===========================================================================================================
+to read RPATH of binary : 
+objdump -x binary-or-library |grep RPATH
+readelf -d binary-or-library
+
+===================================================================================
+if done changes to service in init.d scripts file.  to reload before starting service run following : 
+run commands : 
+   sudo systemctl daemon-reload
+   sudo systemctl reset-failed
+
+===========================================================================
+
+sudo iptables -t nat -L -n -v
+
+==============================================================================
+to check which process is acccessing named pipe. use fuser command.
+sudo fuser /tmp/to_icp_pipe 
+
+==============================================================================
+for time elapse C++ example. 
+
+http://www.cplusplus.com/forum/beginner/91449/
+https://www.quora.com/How-can-I-run-a-block-of-code-every-5-minutes-in-C++
+
+=============================================================================
+

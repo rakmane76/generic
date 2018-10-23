@@ -1,0 +1,66 @@
+set -o vi
+export PS1="\A@\w$ "
+alias cdd="cd .."
+alias cdp="cd /cygdrive/F/Rock/learn/cpprog/practice"
+alias cd11="cd /cygdrive/F/Rock/learn/cpprog/C++11x/practice"
+alias cdpy="cd /cygdrive/F/Rock/learn/python/practice"
+alias grep="grep --color"
+alias g="grep"
+alias gi="g -i"
+alias gv="g -v"
+alias gvi="g -vi"
+alias eg="egrep --color"
+alias egi="eg -i"
+alias egv="eg -v"
+alias egvi="eg -vi"
+alias m="more"
+alias a="alias"
+alias c="clear"
+alias l="ls --color"
+alias la="l -a"
+alias lrt="l -lrt"
+alias py3="python3.6"
+alias sn="/media/Windows_F_Drive/sourcenav/bin/snavigator &"
+alias chess="xboard -ics -icshost freechess.org"
+alias pdb3.6="python3.6 /usr/lib/python3.6/pdb.py"
+alias debugger="nemiver"
+alias cr="tr '[a-m][n-z][A-M][N-Z][0-4][5-9]' '[n-z][a-m][N-Z][A-M][5-9][0-4]'"
+alias g11="g++ -std=c++11"
+alias g14="g++ -std=c++14"
+
+export PATH=$PATH:/media/Windows_F_Drive/sourcenav/bin:/home/rock/scripts
+
+g11p(){
+    #g++ -std=c++11 $1 -Wl,--no-as-needed -lpthread
+    g11 $1 -pthread
+}
+
+g14p(){
+    g14 $1 -pthread
+}
+
+ff(){
+   find . -type f -name "$1"
+}
+
+fp(){
+   find . -type f -name "$1" -exec grep "$2" {} /dev/null \;
+}
+
+fpi(){
+   find . -type f -name "$1" -exec grep -i "$2" {} /dev/null \;
+}
+
+gvim(){
+    if echo $1 | grep "/" >/dev/null 2>&1
+    then
+        dir=`dirname $1`
+        file=`basename $1`
+        cd $dir
+        /cygdrive/F/Installed_Software/gvim80/gvim $file &
+        cd -
+    else
+        /cygdrive/F/Installed_Software/gvim80/gvim $1 &
+    fi
+        
+}
