@@ -1,5 +1,6 @@
 set -o vi
-export PS1="\A@\w$ "
+#export PS1="\A@\w$ "
+export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\A@\[\e[33m\]\w\[\e[0m\]$"
 alias cdd="cd .."
 alias cdp="cd /cygdrive/F/Rock/learn/cpprog/practice"
 alias cd11="cd /cygdrive/F/Rock/learn/cpprog/C++11x/practice"
@@ -27,6 +28,9 @@ alias debugger="nemiver"
 alias cr="tr '[a-m][n-z][A-M][N-Z][0-4][5-9]' '[n-z][a-m][N-Z][A-M][5-9][0-4]'"
 alias g11="g++ -std=c++11"
 alias g14="g++ -std=c++14"
+alias g17="g++ -std=c++17"
+
+PROMPT_DIRTRIM=4
 
 export PATH=$PATH:/media/Windows_F_Drive/sourcenav/bin:/home/rock/scripts
 
@@ -39,16 +43,32 @@ g14p(){
     g14 $1 -pthread
 }
 
+g17p(){
+    g17 $1 -pthread
+}
+
 ff(){
    find . -type f -name "$1"
 }
 
+#find pattern
 fp(){
    find . -type f -name "$1" -exec grep "$2" {} /dev/null \;
 }
 
+#find pattern with case insensitive pattern
 fpi(){
    find . -type f -name "$1" -exec grep -i "$2" {} /dev/null \;
+}
+
+#find pattern ignoring file name case sensitivity
+fip(){
+   find . -type f -iname "$1" -exec grep "$2" {} /dev/null \;
+}
+
+#find pattern, with case insensitive file name and pattern.
+fipi(){
+   find . -type f -iname "$1" -exec grep -i "$2" {} /dev/null \;
 }
 
 gvim(){
