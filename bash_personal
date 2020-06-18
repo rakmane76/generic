@@ -85,7 +85,7 @@ gvim(){
         
 }
 
-rmc ()
+rc ()
 {
     egrep -v "^[[:space:]]*$|^[[:space:]]*${1}" ${2}
 }
