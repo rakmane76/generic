@@ -1,0 +1,18 @@
+
+wsl2 setup for ubuntu and java.
+https://itnext.io/using-wsl-2-to-develop-java-application-on-windows-8aac1123c59b
+
+https://docs.microsoft.com/en-us/windows/wsl/install-win10
+
+https://pureinfotech.com/upgrade-wsl2-wsl1-windows-10/
+
+
+to start xapps on wsl using cygwin xserver... 
+https://gojimmypi.blogspot.com/2019/01/wsl-gui-using-cygwin-x-server-for.html
+
+in command prompt run: 
+E:\cygwin64\bin\run.exe --quote /usr/bin/bash.exe -l -c "cd; exec /usr/bin/startxwin -- -listen tcp -nowgl"
+
+on wsl : 
+ln -s  /mnt/e/cygwin64/home/Aspireal/.Xauthority .
+export DISPLAY="0:0"
