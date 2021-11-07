@@ -1,6 +1,7 @@
 set -o vi
 #export PS1="\A@\w$ "
-export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\A@\[\e[33m\]\w\[\e[0m\]$"
+#export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\A@\[\e[33m\]\w\[\e[0m\]$"
+export PS1="\[\e[36m\]<\A> %\n\[\e[35m\]{rock}_@\[\e[33m\]\w\[\e[0m\]$ "
 alias cdd="cd .."
 alias cdp="cd /cygdrive/F/Rock/learn/cpprog/practice"
 alias cd11="cd /cygdrive/F/Rock/learn/cpprog/C++11x/practice"
@@ -33,6 +34,9 @@ alias g17="g++ -std=c++17"
 PROMPT_DIRTRIM=4
 
 export PATH=$PATH:/media/Windows_F_Drive/sourcenav/bin:/home/rock/scripts
+export CPLUS_INCLUDE_PATH="${CPLUS_INCLUDE_PATH}:/usr/local/include:/usr/include/postgresql"
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/debug:/usr/local/lib:/usr/lib/x86_64-linux-gnu
+
 
 g11p(){
     #g++ -std=c++11 $1 -Wl,--no-as-needed -lpthread
