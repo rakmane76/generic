@@ -1,7 +1,9 @@
 set -o vi
 #export PS1="\A@\w$ "
 #export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\A@\[\e[33m\]\w\[\e[0m\]$"
-export PS1="\[\e[36m\]<\A> %\n\[\e[35m\]{rock}_@\[\e[33m\]\w\[\e[0m\]$ "
+#export PS1="\[\e[36m\]<\A> %\n\[\e[35m\]{rock}_@\[\e[33m\]\w\[\e[0m\]$ "
+export PS1="\[\e[35m\]{rock}@\[\e[0;32m\](\D{%a_%d/%m/%Y})\[\e[0;31m\]_<\A>\n\[\e[0;33m\]\w\[\e[0m\]$ "
+export DISPLAY="0:0"
 alias cdd="cd .."
 alias cdp="cd /cygdrive/F/Rock/learn/cpprog/practice"
 alias cd11="cd /cygdrive/F/Rock/learn/cpprog/C++11x/practice"
@@ -93,3 +95,9 @@ rc ()
 {
     egrep -v "^[[:space:]]*$|^[[:space:]]*${1}" ${2}
 }
+
+#clear; toilet -f ascii9 -F gay '  Make It'; toilet -f ascii9 -F gay '   Happen' ;  echo ; echo;
+#toilet -f ascii9 -F gay '   Make  It'; toilet -f ascii9 -F gay '    Happen' ;  echo ; echo;
+#clear ; echo; echo; toilet -f ascii9 -f banner "   M a k e     I t       H a p p e n" -F metal; echo ; echo; echo ; echo ; echo
+clear ; echo; echo; toilet -f ivrit "                   M a k e             I t                             H a p p e n" -F gay; echo ; echo; echo ; echo ; echo
+#clear ; echo; echo; toilet -f standard "       M a k e        I t                                H a p p e n" -F metal; echo ; echo; echo ; echo ; echo
